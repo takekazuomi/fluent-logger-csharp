@@ -88,12 +88,14 @@ namespace Fluent
                 if (type == typeof(long)) return new MessagePackObject((long)obj);
                 if (type == typeof(sbyte)) return new MessagePackObject((sbyte)obj);
                 if (type == typeof(short)) return new MessagePackObject((short)obj);
-                if (type == typeof(string)) return new MessagePackObject((string)obj);
                 if (type == typeof(uint)) return new MessagePackObject((uint)obj);
                 if (type == typeof(ulong)) return new MessagePackObject((ulong)obj);
                 if (type == typeof(ushort)) return new MessagePackObject((ushort)obj);
                 if (type == typeof(DateTime)) return new MessagePackObject(MessagePackConvert.FromDateTime((DateTime)obj));
                 if (type == typeof(DateTimeOffset)) return new MessagePackObject(MessagePackConvert.FromDateTimeOffset((DateTimeOffset)obj));
+
+                // object型の変数ににstringが入ってた時にchar[]で処理しようとしてエラーになるので修正
+                if (obj is string) return new MessagePackObject((string)obj);
 
                 if (type.IsEnum) return new MessagePackObject(obj.ToString());
 
